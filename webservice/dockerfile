@@ -10,6 +10,6 @@ RUN pipenv install --system --deploy
 
 COPY flask_script.py *.pkl ./
 
-EXPOSE 8000
+EXPOSE 9696
 
-ENTRYPOINT gunicorn --bind 0.0.0.0:8000 flask_script:app
+ENTRYPOINT gunicorn --bind 0.0.0.0:9696 flask_script:app
