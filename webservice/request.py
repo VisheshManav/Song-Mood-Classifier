@@ -15,4 +15,5 @@ song_features = {'Unnamed: 0': 119145.0,
 }
 
 response = requests.post('http://localhost:9696/predict', json=song_features)
-print(response.json())
+for k, v in response.json().items():
+  print(f'{k:10s} -> {v}')

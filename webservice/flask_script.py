@@ -14,7 +14,12 @@ def predict():
   X_features = [[song_features[k] for k in features]]
   pred = model.predict(X_features)[0]
   moods = ['sad', 'happy', 'energetic', 'calm']
-  return jsonify({'mood': moods[pred]})
+  res = {moods[i]: {
+            'probability': float(prob),
+            'is_predicted': bool(pred == i) 
+          } 
+         for i, prob in enumerate(model.predict_proba(X_features)[0])}
+  return jsonify(res)
 
 if __name__ == '__main__':
   app.run(debug=True, host='0.0.0.0', port=9696)

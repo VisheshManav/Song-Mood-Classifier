@@ -19,4 +19,6 @@ X = {'Unnamed: 0': 119145.0,
  'spec_rate': 1.6763727121464226e-07
 }
 X_features = [[X[k] for k in features]]
-print(model.predict(X_features))
+moods = ['sad', 'happy', 'energetic', 'calm']
+for i, prob in enumerate(model.predict_proba(X_features)[0]):
+  print(f'{moods[i]:10s} -> {prob}')
