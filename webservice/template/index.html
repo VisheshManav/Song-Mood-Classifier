@@ -1,0 +1,69 @@
+<html>
+
+<head>
+  <title>Template</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./script.js"></script>
+</head>
+
+<body>
+  <h1>Song Mood Classifier</h1>
+  <h4>A machine learning classifier for predicting the mood of a song in
+    spotify by its select features. <br>The moods are four in number. They are:
+    Happy, Sad, Calm, Energetic.
+    <br>
+    To use the prediction service, enter the values of the features of the
+    song in the form below and click on the predict button. <br>
+  </h4>
+  <div class="button-container">
+    <button class="responsive-button" onclick="showForm()">Form Input</button>
+    <button class="responsive-button" onclick="showJson()">JSON Input</button>
+  </div>
+  <div id="formDiv" style="display: none;">
+    <form class="form-container" action="http://localhost:9696/predict" method="POST" onsubmit="return validateForm()">
+      <ul class="feature-form">
+        <li>
+          <label for="danceability">danceability</label>
+          <input type="text" id="danceability" name="danceability" required>
+        </li>
+        <li>
+          <label for="energy">energy</label>
+          <input type="text" id="energy" name="energy" required>
+        </li>
+        <li>
+          <label for="loudness">loudness</label>
+          <input type="text" id="loudness" name="loudness" required>
+        </li>
+        <li>
+          <label for="speechiness">speechiness</label>
+          <input type="text" id="speechiness" name="speechiness" required>
+        </li>
+        <li>
+          <label for="acousticness">acousticness</label>
+          <input type="text" id="acousticness" name="acousticness" required>
+        </li>
+        <li>
+          <label for="instrumentalness">instrumentalness</label>
+          <input type="text" id="instrumentalness" name="instrumentalness">
+        </li>
+        <li>
+          <label for="valence">valence</label>
+          <input type="text" id="valence" name="valence" required>
+        </li>
+        <li>
+          <input type="submit" value="Predict" style="width: 25%;">
+        </li>
+      </ul>
+    </form>
+  </div>
+  <div id="jsonDiv" style="display: none;">
+    <form class="json-container" action="http://localhost:9696/predict" method="POST">
+      <textarea id="jsonInput" name="jsonInput" rows="10" cols="50" required>
+          </textarea>
+      <br>
+      <input type="submit" value="Predict" style="width: 100%;">
+    </form>
+  </div>
+</body>
+
+</html>
