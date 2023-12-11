@@ -1,6 +1,6 @@
 import pickle
 from flask import Flask
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 
 with open('model.pkl', 'rb') as model_file, open('features.pkl', 'rb') as feature_file:
   model = pickle.load(model_file)
@@ -8,13 +8,33 @@ with open('model.pkl', 'rb') as model_file, open('features.pkl', 'rb') as featur
 
 app = Flask('song-mood-predictor')
 
+@app.route('/', methods=['GET'])
+def home():
+  return render_template('index.html')
+
+@app.route('/predict-form', methods=['POST'])
+def predict_form():
+  data = request.form.to_dict()
+  pred = predict(data)
+  return pred
+
+@app.route('/predict-json', methods=['POST'])
+def predict_json():
+  data = request.form.get('jsonInput')
+  pred = predict(data)
+  return pred
+
 @app.route('/predict', methods=['POST'])
 def predict():
-  song_features = request.get_json()
+  data = request.get_json()
+  pred = predict(data)
+  return pred
 
-  has_features = all([k in song_features for k in features])
-  if not has_features:
-    return jsonify({'Error': 'Missing features\nFeatures needed are: '+features}), 400
+def predict(song_features):
+
+  missing_features = [k for k in features if k not in song_features]
+  if missing_features:
+    return jsonify({'Error': 'Missing features : '+str(missing_features)}), 400
   
   X_features = [[song_features[k] for k in features]]
   moods = ['sad', 'happy', 'energetic', 'calm']
@@ -23,10 +43,9 @@ def predict():
   prob = model.predict_proba(X_features)[0]
 
   mood_prob = zip(moods, prob)
-  sorted_mood_prob = sorted(mood_prob, key=lambda x: x[1])
 
   res = {}
-  for i, m_prob in enumerate(sorted_mood_prob):
+  for i, m_prob in enumerate(mood_prob):
     res[moods[i]] = {'probability': float(m_prob[1]), 
                      'is_predicted': bool(pred == i)}
     

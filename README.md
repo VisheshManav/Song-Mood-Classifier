@@ -37,4 +37,5 @@ To run the app with docker; follow the steps mentioned:
     ```
     This command will run the service at `http://localhost:9696/predict`.
 
+### It can also be run as a html frontend on `http://localhost:9696`
 ---
