@@ -1,0 +1,3 @@
+export SPOTIPY_CLIENT_ID=2fe4d4d027cb49dfb705cf6c377f327b
+export SPOTIPY_CLIENT_SECRET=c16b9d6eaf694686adddae03d06e67da
+export SPOTIPY_REDIRECT_URI=http://localhost:8080

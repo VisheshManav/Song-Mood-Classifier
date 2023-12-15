@@ -9,6 +9,11 @@ COPY Pipfile* ./
 RUN pipenv install --system --deploy
 
 COPY flask_script.py *.pkl ./
+COPY templates/ ./templates/
+
+ENV SPOTIPY_CLIENT_ID=2fe4d4d027cb49dfb705cf6c377f327b
+ENV SPOTIPY_CLIENT_SECRET=c16b9d6eaf694686adddae03d06e67da
+ENV SPOTIPY_REDIRECT_URI=http://localhost:8080
 
 EXPOSE 9696
 

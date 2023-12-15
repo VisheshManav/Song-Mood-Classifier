@@ -1,4 +1,5 @@
 import pickle
+import json
 from flask import Flask
 from flask import request, jsonify, render_template
 
@@ -20,7 +21,7 @@ def predict_form():
 
 @app.route('/predict-json', methods=['POST'])
 def predict_json():
-  data = request.form.get('jsonInput')
+  data = json.loads(request.form.get('jsonInput'))
   pred = predict(data)
   return pred
 
@@ -29,6 +30,21 @@ def predict():
   data = request.get_json()
   pred = predict(data)
   return pred
+
+@app.route('/predict-id', methods=['POST'])
+def predict_id():
+  import spotipy
+  from spotipy.oauth2 import SpotifyClientCredentials
+
+  spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
+
+  data = json.loads(request.form.get('track'))
+  features = spotify.audio_features([data['track']])
+  if features:
+    pred = predict(features[0])
+    return pred
+  else:
+    return 'Could not get features for track', 400
 
 def predict(song_features):
 
